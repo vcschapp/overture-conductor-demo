@@ -1,0 +1,13 @@
+[package]
+name = "conductor"
+version = "0.1.0"
+edition = "2024"
+
+description = "Example of a `conductor` CLI for Overture schema"
+license = "MIT"
+repository = "https://github.com/vcschapp/overture-conductor-demo"
+keywords = ["overture", "maps", "schema", "cli", "tool"]
+categories = ["command-line-utilities", "development-tools"]
+
+[dependencies]
+clap = { version = "^4", features = ["derive"] }
