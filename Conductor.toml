@@ -1,0 +1,29 @@
+[schema]
+name = "building"
+version = "0.1.0"
+license = "CC-BY-4.0"
+
+[dependencies]
+overture-schema-core = "^1.2.1"
+
+[[example]]
+id          = "123"
+geometry    = { "type": "Polygon", coordinates: [] }
+names       = { "primary": "le tour Eiffel" }
+color       = "black"
+sources     = [ { property = "", dataset = "OpenStreetMap", record_id = "r@123" ]
+
+[[example]]
+id          = "456"
+geometry    = { "type": "Polygon", coordinates: [] }
+names       = { "primary": "Empire State Building" }
+color       = "gray"
+sources     = [ { property = "", dataset = "OpenStreetMap", record_id = "r@456" ]
+
+[[example]]
+id          = "789"
+geometry    = { "type": "Polygon", coordinates: [] }
+sources     = [ { property = "", dataset = "OpenStreetMap", record_id = "r@456" ]
+
+
+
