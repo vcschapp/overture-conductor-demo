@@ -1,0 +1,19 @@
+[schema]
+name = "road-closure"
+version = "0.1.0"
+license = "MIT"
+description = "Esri road closure schema extension"
+homepage = "https://esri.com"
+repository = "https://github.com/esri/overture-road-closure"
+documentation = "https://notsure.com/somewhere"
+
+[dependencies]
+overture-schema-segment = "^1.2.1"
+
+[[example.road_closure]]
+segment_id      = "123"
+                # It would be very cool if the segment_id could actually refer
+                # to an EXAMPLE segment in the "overture-schema-segment" schema...
+closure_id      = "esri.456"
+closure_scope   = { between = [0, 0.25], during = "M-F10-6" }
+closure_reason  = "construction"
