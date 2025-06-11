@@ -1,4 +1,5 @@
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum, ValueHint};
+use std::path::PathBuf;
 
 #[derive(Parser)]
 #[command(name = "conductor", about = "Overture schema CLI", version)]
@@ -51,12 +52,24 @@ enum DataCommand {
 
 #[derive(Subcommand)]
 enum TranspileCommand {
-    #[command(aliases = ["json", "geojson", "geo-json"], about = "GeoJSON-flavored JSON Schema")]
+    #[command(aliases = ["docusaurus", "mdx"], about = "Docusaurus-flavored markdown (`.mdx`)")]
+    DocDocusaurus,
+    #[command(aliases = ["json", "geojson", "geo-json"], about = "JSON Schema validating Overture-flavored GeoJSON")]
     SchemaGeoJson,
     #[command(aliases = ["spark"], about = "Spark schema in PySpark or Scala dialect")]
-    SchemaSpark,
+    SchemaSpark {
+        #[clap(short, long, help = "Spark dialect", value_hint = ValueHint::Other)]
+        dialect: SparkDialect,
+        #[clap(short, long, help = "Output directory (default: current directory)", value_hint = ValueHint::DirPath, value_name = "DIR")]
+        output_dir: Option<PathBuf>,
+    },
     #[command(aliases = ["java"], about = "Java language SDK (Scala-compatible) with optional serde support")]
-    SdkJava,
+    SdkJava {
+        #[clap(short, long, help = "Output directory (default: current directory)", value_hint = ValueHint::DirPath, value_name = "DIR")]
+        output_dir: Option<PathBuf>,
+        #[clap(short, long, value_delimiter = ',', help = "Serde support", value_hint = ValueHint::Other)]
+        serde: Vec<SerdeKind>,
+    },
     #[command(aliases = ["python", "py"], about = "Python language SDK with optional serde support")]
     SdkPython,
     #[command(about = "Spark-based distributed validation script in PySpark or Scala dialect")]
@@ -68,7 +81,22 @@ enum ExampleCommand {
     #[command(aliases = ["parquet", "parq", "par", "p"], about = "Sample GeoParquet file")]
     GeoParquet,
     #[command(aliases = ["json", "j"], about = "Sample GeoJSON features")]
-    GeoJSON,
+    GeoJson,
+}
+
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, ValueEnum)]
+#[clap(rename_all = "kebab-case")]
+enum SparkDialect {
+    PySpark,
+    Scala,
+}
+
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, ValueEnum)]
+#[clap(rename_all = "kebab-case")]
+enum SerdeKind {
+    GeoJson,
+    GeoParquet,
+    SparkDataframe,
 }
 
 fn main() {
